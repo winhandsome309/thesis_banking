@@ -2,11 +2,11 @@ import React from "react";
 
 import { Icon } from "@chakra-ui/react";
 import {
-  MdBarChart,
+  MdCheckCircle,
   MdPerson,
   MdHome,
   MdLock,
-  MdOutlineShoppingCart,
+  MdHourglassTop,
 } from "react-icons/md";
 
 // Admin Imports
@@ -33,7 +33,7 @@ const routes = [
     path: "/nft-marketplace",
     icon: (
       <Icon
-        as={MdOutlineShoppingCart}
+        as={MdHourglassTop}
         width='20px'
         height='20px'
         color='inherit'
@@ -45,7 +45,7 @@ const routes = [
   {
     name: "Processing",
     layout: "/admin",
-    icon: <Icon as={MdBarChart} width='20px' height='20px' color='inherit' />,
+    icon: <Icon as={MdCheckCircle} width='20px' height='20px' color='inherit' />,
     path: "/data-tables",
     component: DataTables,
   },
