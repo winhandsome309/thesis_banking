@@ -103,6 +103,12 @@ export default function AppTable(props) {
                         {cell.value}
                       </Text>
                     );
+                  } else if (cell.column.Header === "DATE") {
+                    data = (
+                      <Text color={textColor} fontSize='sm' fontWeight='700'>
+                        {cell.value}
+                      </Text>
+                    );
                   } else if (cell.column.Header === "TECH") {
                     data = (
                       <Flex align='center'>
@@ -140,12 +146,6 @@ export default function AppTable(props) {
                         })}
                       </Flex>
                     );
-                  } else if (cell.column.Header === "DATE") {
-                    data = (
-                      <Text color={textColor} fontSize='sm' fontWeight='700'>
-                        {cell.value}
-                      </Text>
-                    );
                   } else if (cell.column.Header === "PROGRESS") {
                     data = (
                       <Flex align='center'>
@@ -164,6 +164,24 @@ export default function AppTable(props) {
                           value={cell.value}
                         />
                       </Flex>
+                    );
+                  } else if(cell.column.Header === "LOAN AMOUNT"){
+                    data = (
+                      <Text color={textColor} fontSize='sm' fontWeight='700'>
+                        {cell.value + "$"}
+                      </Text>
+                    );
+                  } else if(cell.column.Header === "PURPOSE"){
+                    data = (
+                      <Text color={textColor} fontSize='sm' fontWeight='700'>
+                        {cell.value}
+                      </Text>
+                    );
+                  } else if(cell.column.Header === "PREDICT"){
+                    data = (
+                      <Text color={textColor} fontSize='sm' fontWeight='700'>
+                        {cell.value}
+                      </Text>
                     );
                   }
                   return (
