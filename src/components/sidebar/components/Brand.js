@@ -1,11 +1,12 @@
 import React from "react";
 
 // Chakra imports
-import { Flex, useColorModeValue } from "@chakra-ui/react";
+import { Flex, useColorModeValue, Image } from "@chakra-ui/react";
 
 // Custom components
-import { HorizonLogo } from "components/icons/Icons";
-import { HSeparator } from "components/separator/Separator";
+import { HSeparator } from "../../separator/Separator";
+
+import Logo from "assets/img/logo-no-background.png";
 
 export function SidebarBrand() {
   //   Chakra color mode
@@ -13,7 +14,8 @@ export function SidebarBrand() {
 
   return (
     <Flex align='center' direction='column'>
-      <HorizonLogo h='26px' w='175px' my='32px' color={logoColor} />
+      {/* <HorizonLogo h='26px' w='175px' my='32px' color={logoColor} /> */}
+      <Image h='50px' w='170px' src={Logo} mb='18px' />
       <HSeparator mb='20px' />
     </Flex>
   );

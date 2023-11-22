@@ -23,7 +23,7 @@ import {
   useTable,
 } from "react-table";
 
-export default function DevelopmentTable(props) {
+export default function AppTable(props) {
   const { columnsData, tableData } = props;
 
   const columns = useMemo(() => columnsData, [columnsData]);
@@ -64,7 +64,7 @@ export default function DevelopmentTable(props) {
           fontSize='22px'
           fontWeight='700'
           lineHeight='100%'>
-          Development Table
+          Applications
         </Text>
         <Menu />
       </Flex>

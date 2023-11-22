@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import 'assets/css/App.css';
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import AuthLayout from 'layouts/auth';
-import AdminLayoutabc from 'layouts/admin';
+import AdminLayoutabc from './layouts/admin';
 import RtlLayout from 'layouts/rtl';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from './theme/theme';
