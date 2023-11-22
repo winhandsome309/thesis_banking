@@ -28,7 +28,7 @@ const routes = [
     component: MainDashboard,
   },
   {
-    name: "Waiting",
+    name: "Waiting App.",
     layout: "/admin",
     path: "/nft-marketplace",
     icon: (
@@ -43,7 +43,7 @@ const routes = [
     secondary: true,
   },
   {
-    name: "Processing",
+    name: "Processed App.",
     layout: "/admin",
     icon: <Icon as={MdCheckCircle} width='20px' height='20px' color='inherit' />,
     path: "/data-tables",
@@ -56,7 +56,7 @@ const routes = [
     icon: <Icon as={MdPerson} width='20px' height='20px' color='inherit' />,
     component: Profile,
   },
-  
+
 ];
 
 export default routes;
