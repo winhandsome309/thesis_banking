@@ -11,13 +11,13 @@ import {
 
 // Admin Imports
 import MainDashboard from "./views/admin/default";
-import NFTMarketplace from "./views/admin/marketplace";
+// import WaitingApp from "./views/admin/marketplace";
 import Profile from "./views/admin/profile";
-import DataTables from "./views/admin/dataTables";
-import RTL from "views/admin/rtl";
+import ProcessedApp from "./views/admin/applications";
+// import RTL from "views/admin/rtl";
 
 // Auth Imports
-import SignInCentered from "views/auth/signIn";
+// import SignInCentered from "views/auth/signIn";
 
 const routes = [
   {
@@ -30,7 +30,7 @@ const routes = [
   {
     name: "Waiting App.",
     layout: "/admin",
-    path: "/nft-marketplace",
+    path: "/waiting-app",
     icon: (
       <Icon
         as={MdHourglassTop}
@@ -39,15 +39,15 @@ const routes = [
         color='inherit'
       />
     ),
-    component: NFTMarketplace,
-    secondary: true,
+    component: ProcessedApp,
+    // secondary: true,
   },
   {
     name: "Processed App.",
     layout: "/admin",
     icon: <Icon as={MdCheckCircle} width='20px' height='20px' color='inherit' />,
-    path: "/data-tables",
-    component: DataTables,
+    path: "/processed-app",
+    component: ProcessedApp,
   },
   {
     name: "Profile",

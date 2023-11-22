@@ -10,24 +10,10 @@ export default function WaitingApp() {
   // Chakra Color Mode
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "100px" }}>
-      {/* <SimpleGrid
-        mb='20px'
-        columns={{ sm: 1, md: 1 }}
-        spacing={{ base: "20px", xl: "20px" }}> */}
       <AppTable
         columnsData={columnsDataDevelopment}
         tableData={tableDataDevelopment}
       />
-      {/* <CheckTable columnsData={columnsDataCheck} tableData={tableDataCheck} />
-        <ColumnsTable
-          columnsData={columnsDataColumns}
-          tableData={tableDataColumns}
-        />
-        <ComplexTable
-          columnsData={columnsDataComplex}
-          tableData={tableDataComplex}
-        /> */}
-      {/* </SimpleGrid> */}
     </Box>
   );
 }

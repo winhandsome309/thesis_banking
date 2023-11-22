@@ -125,13 +125,13 @@ export default function AdminNavbar(props) {
 					<AdminNavbarLinks
 						onOpen={props.onOpen}
 						logoText={props.logoText}
-						secondary={props.secondary}
+						// secondary={props.secondary}
 						fixed={props.fixed}
 						scrolled={scrolled}
 					/>
 				</Box>
 			</Flex>
-			{secondary ? <Text color='white'>{message}</Text> : null}
+			{/* {secondary ? <Text color='white'>{message}</Text> : null} */}
 		</Box>
 	);
 }
@@ -139,7 +139,7 @@ export default function AdminNavbar(props) {
 AdminNavbar.propTypes = {
 	brandText: PropTypes.string,
 	variant: PropTypes.string,
-	secondary: PropTypes.bool,
+	// secondary: PropTypes.bool,
 	fixed: PropTypes.bool,
 	onOpen: PropTypes.func
 };
