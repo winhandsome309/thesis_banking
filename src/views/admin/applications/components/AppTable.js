@@ -15,7 +15,7 @@ import {
 import Card from "components/card/Card";
 import { AndroidLogo, AppleLogo, WindowsLogo } from "components/icons/Icons";
 import Menu from "components/menu/MainMenu";
-import React, { useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   useGlobalFilter,
   usePagination,
@@ -24,10 +24,55 @@ import {
 } from "react-table";
 
 export default function AppTable(props) {
+
+  const [data, setdata] = useState({
+    credit_policy: 0,
+    purpose: "",
+    int_rate: 0,
+    installment:0,
+    log_annual_inc: 0,
+    dti: 0,
+    fico: 0,
+    days_with_cr_line: 0,
+    revol_bal: 0,
+    revol_util: 0,
+    inq_last_6mths: 0,
+    delinq_2yrs: 0,
+    pub_rec: 0,
+    not_fully_paid: 0,
+  });
+
+  // Using useEffect for single rendering
+  useEffect(() => {
+      // Using fetch to fetch the api from 
+      // flask server it will be redirected to proxy
+      fetch("/admin/waiting_app").then((res) =>
+          res.then((data) => {
+              // Setting a data from api
+              setdata({
+                credit_policy: data.credit_policy,
+                purpose: data.purpose,
+                int_rate: data.int_rate,
+                installment: data.installment,
+                log_annual_inc: data.log_annual_inc,
+                dti: data.dti,
+                fico: data.fico,
+                days_with_cr_line: data.days_with_cr_line,
+                revol_bal: data.revol_bal,
+                revol_util: data.revol_util,
+                inq_last_6mths: data.inq_last_6mths,
+                delinq_2yrs: data.delinq_2yrs,
+                pub_rec: data.pub_rec,
+                not_fully_paid: data.not_fully_paid,
+              });
+          })
+      );
+  }, []);
+  
   const { columnsData, tableData } = props;
 
   const columns = useMemo(() => columnsData, [columnsData]);
-  const data = useMemo(() => tableData, [tableData]);
+  // const data = useMemo(() => tableData, [tableData]);
 
   const tableInstance = useTable(
     {

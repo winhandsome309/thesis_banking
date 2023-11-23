@@ -3,6 +3,7 @@
   "name": "hs-banking",
   "version": "1.0.1",
   "private": true,
+  "proxy": "http://localhost:5000/",
   "dependencies": {
     "@chakra-ui/icons": "^1.1.5",
     "@chakra-ui/react": "1.8.8",
