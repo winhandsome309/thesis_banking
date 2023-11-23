@@ -36,17 +36,17 @@ export default function GeneralInformation(props) {
         <Information
           boxShadow={cardShadow}
           title='Education'
-          value='Stanford University'
+          value='Bach Khoa University'
         />
         <Information
           boxShadow={cardShadow}
           title='Languages'
-          value='English, Spanish, Italian'
+          value='English, Vietnamese'
         />
         <Information
           boxShadow={cardShadow}
           title='Department'
-          value='Product Design'
+          value='Computer Science'
         />
         <Information
           boxShadow={cardShadow}
@@ -56,12 +56,12 @@ export default function GeneralInformation(props) {
         <Information
           boxShadow={cardShadow}
           title='Organization'
-          value='Simmmple Web LLC'
+          value='CSE'
         />
         <Information
           boxShadow={cardShadow}
           title='Birthday'
-          value='20 July 1986'
+          value='30 Sep, 2002'
         />
       </SimpleGrid>
     </Card>

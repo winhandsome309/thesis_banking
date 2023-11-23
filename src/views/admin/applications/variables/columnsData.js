@@ -16,7 +16,7 @@ export const columnsDataDevelopment = [
     accessor: "purpose",
   },
   {
-    Header: "PREDICT",
+    Header: "PREDICT RESULT",
     accessor: "predict",
   },
 ];

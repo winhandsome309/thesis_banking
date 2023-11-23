@@ -165,19 +165,19 @@ export default function AppTable(props) {
                         />
                       </Flex>
                     );
-                  } else if(cell.column.Header === "LOAN AMOUNT"){
+                  } else if (cell.column.Header === "LOAN AMOUNT") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
                         {cell.value + "$"}
                       </Text>
                     );
-                  } else if(cell.column.Header === "PURPOSE"){
+                  } else if (cell.column.Header === "PURPOSE") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
                         {cell.value}
                       </Text>
                     );
-                  } else if(cell.column.Header === "PREDICT"){
+                  } else if (cell.column.Header === "PREDICT RESULT") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
                         {cell.value}
