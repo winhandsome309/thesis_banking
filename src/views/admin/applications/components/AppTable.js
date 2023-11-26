@@ -27,6 +27,7 @@ import axios from "axios";
 export default function AppTable(props) {
 
   const [data, setData] = useState([]);
+  var id = 1;
 
   useEffect(async () => {
     axios.get("http://localhost:5000/admin/waiting_app")
@@ -34,6 +35,8 @@ export default function AppTable(props) {
         setData(response.data);
       });
   }, [])
+
+
   
   const { columnsData, tableData } = props;
 
@@ -71,14 +74,14 @@ export default function AppTable(props) {
       <Flex px='25px' justify='space-between' mb='20px' align='center'>
         <Text
           color={textColor}
-          fontSize='22px'
+          fontSize='24px'
           fontWeight='700'
           lineHeight='100%'>
           Applications
         </Text>
         <Menu />
       </Flex>
-      <Table {...getTableProps()} variant='simple' color='gray.500' mb='24px'>
+      <Table {...getTableProps()} variant='simple' color='gray.500' mb='0px'>
         <Thead>
           {headerGroups.map((headerGroup, index) => (
             <Tr {...headerGroup.getHeaderGroupProps()} key={index}>
@@ -91,7 +94,7 @@ export default function AppTable(props) {
                   <Flex
                     justify='space-between'
                     align='center'
-                    fontSize={{ sm: "10px", lg: "12px" }}
+                    fontSize={{ sm: "10px", lg: "14px" }}
                     color='gray.400'>
                     {column.render("Header")}
                   </Flex>
@@ -107,7 +110,14 @@ export default function AppTable(props) {
               <Tr {...row.getRowProps()} key={index}>
                 {row.cells.map((cell, index) => {
                   let data = "";
-                  if (cell.column.Header === "credit_policy") {
+                  if(cell.column.Header == "id"){
+                    data = (
+                      <Text color={textColor} fontSize='sm' fontWeight='700'>
+                        {id}
+                      </Text>
+                    );
+                    id++;
+                  } else if (cell.column.Header === "credit_policy") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
                         {cell.value}
@@ -193,7 +203,13 @@ export default function AppTable(props) {
                         {cell.value}
                       </Text>
                     );
-                  }
+                  } else if(cell.column.Header == "predict"){
+                      data = (
+                        <Text color={cell.value >= 60 ? '#3cf20f' : 'red'} fontSize='sm' fontWeight='700'>
+                          {cell.value + '%'}
+                        </Text>
+                      );
+                    }
                   return (
                     <Td
                       {...cell.getCellProps()}

@@ -1,5 +1,9 @@
 export const columnsDataDevelopment = [
   {
+    Header: "id",
+    accessor: "id",
+  },
+  {
     Header: "credit_policy",
     accessor: "credit_policy",
   },
@@ -55,6 +59,10 @@ export const columnsDataDevelopment = [
     Header: "not_fully_paid",
     accessor: "not_fully_paid",
   },
+  {
+    Header: "predict",
+    accessor: "predict",
+  }
 ];
 
 export const columnsDataCheck = [
