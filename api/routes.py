@@ -1,8 +1,11 @@
 from flask import Flask, render_template, request, jsonify
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -13,6 +16,7 @@ mysql = MySQL(app)
 
 
 @app.route("/")
+@cross_origin
 def index():
     return "<p>This is index file</p>"
 

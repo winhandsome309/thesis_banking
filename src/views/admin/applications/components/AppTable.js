@@ -22,57 +22,22 @@ import {
   useSortBy,
   useTable,
 } from "react-table";
+import axios from "axios";
 
 export default function AppTable(props) {
 
-  const [data, setdata] = useState({
-    credit_policy: 0,
-    purpose: "",
-    int_rate: 0,
-    installment:0,
-    log_annual_inc: 0,
-    dti: 0,
-    fico: 0,
-    days_with_cr_line: 0,
-    revol_bal: 0,
-    revol_util: 0,
-    inq_last_6mths: 0,
-    delinq_2yrs: 0,
-    pub_rec: 0,
-    not_fully_paid: 0,
-  });
+  const [data, setData] = useState([]);
 
-  // Using useEffect for single rendering
-  useEffect(() => {
-      // Using fetch to fetch the api from 
-      // flask server it will be redirected to proxy
-      fetch("/admin/waiting_app").then((res) =>
-          res.then((data) => {
-              // Setting a data from api
-              setdata({
-                credit_policy: data.credit_policy,
-                purpose: data.purpose,
-                int_rate: data.int_rate,
-                installment: data.installment,
-                log_annual_inc: data.log_annual_inc,
-                dti: data.dti,
-                fico: data.fico,
-                days_with_cr_line: data.days_with_cr_line,
-                revol_bal: data.revol_bal,
-                revol_util: data.revol_util,
-                inq_last_6mths: data.inq_last_6mths,
-                delinq_2yrs: data.delinq_2yrs,
-                pub_rec: data.pub_rec,
-                not_fully_paid: data.not_fully_paid,
-              });
-          })
-      );
-  }, []);
+  useEffect(async () => {
+    axios.get("http://localhost:5000/admin/waiting_app")
+      .then((response) => {
+        setData(response.data);
+      });
+  }, [])
   
   const { columnsData, tableData } = props;
 
   const columns = useMemo(() => columnsData, [columnsData]);
-  // const data = useMemo(() => tableData, [tableData]);
 
   const tableInstance = useTable(
     {
@@ -142,87 +107,87 @@ export default function AppTable(props) {
               <Tr {...row.getRowProps()} key={index}>
                 {row.cells.map((cell, index) => {
                   let data = "";
-                  if (cell.column.Header === "NAME") {
+                  if (cell.column.Header === "credit_policy") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
                         {cell.value}
                       </Text>
                     );
-                  } else if (cell.column.Header === "DATE") {
+                  } else if (cell.column.Header === "purpose") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
                         {cell.value}
                       </Text>
                     );
-                  } else if (cell.column.Header === "TECH") {
-                    data = (
-                      <Flex align='center'>
-                        {cell.value.map((item, key) => {
-                          if (item === "apple") {
-                            return (
-                              <AppleLogo
-                                key={key}
-                                color={iconColor}
-                                me='16px'
-                                h='18px'
-                                w='15px'
-                              />
-                            );
-                          } else if (item === "android") {
-                            return (
-                              <AndroidLogo
-                                key={key}
-                                color={iconColor}
-                                me='16px'
-                                h='18px'
-                                w='16px'
-                              />
-                            );
-                          } else if (item === "windows") {
-                            return (
-                              <WindowsLogo
-                                key={key}
-                                color={iconColor}
-                                h='18px'
-                                w='19px'
-                              />
-                            );
-                          }
-                        })}
-                      </Flex>
-                    );
-                  } else if (cell.column.Header === "PROGRESS") {
-                    data = (
-                      <Flex align='center'>
-                        <Text
-                          me='10px'
-                          color={textColor}
-                          fontSize='sm'
-                          fontWeight='700'>
-                          {cell.value}%
-                        </Text>
-                        <Progress
-                          variant='table'
-                          colorScheme='brandScheme'
-                          h='8px'
-                          w='63px'
-                          value={cell.value}
-                        />
-                      </Flex>
-                    );
-                  } else if (cell.column.Header === "LOAN AMOUNT") {
+                  } else if (cell.column.Header === "int_rate") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
                         {cell.value + "$"}
                       </Text>
                     );
-                  } else if (cell.column.Header === "PURPOSE") {
-                    data = (
-                      <Text color={textColor} fontSize='sm' fontWeight='700'>
-                        {cell.value}
-                      </Text>
-                    );
-                  } else if (cell.column.Header === "PREDICT RESULT") {
+                  } 
+                  // else if (cell.column.Header === "installment") {
+                  //   data = (
+                  //     <Text color={textColor} fontSize='sm' fontWeight='700'>
+                  //       {cell.value}
+                  //     </Text>
+                  //   );
+                  // } else if (cell.column.Header === "log_annual_inc") {
+                  //   data = (
+                  //     <Text color={textColor} fontSize='sm' fontWeight='700'>
+                  //       {cell.value}
+                  //     </Text>
+                  //   );
+                  // } else if (cell.column.Header === "dti") {
+                  //   data = (
+                  //     <Text color={textColor} fontSize='sm' fontWeight='700'>
+                  //       {cell.value}
+                  //     </Text>
+                  //   );
+                  // } else if (cell.column.Header === "fico") {
+                  //   data = (
+                  //     <Text color={textColor} fontSize='sm' fontWeight='700'>
+                  //       {cell.value}
+                  //     </Text>
+                  //   );
+                  // } else if (cell.column.Header === "days_with_cr_line") {
+                  //   data = (
+                  //     <Text color={textColor} fontSize='sm' fontWeight='700'>
+                  //       {cell.value}
+                  //     </Text>
+                  //   );
+                  // } else if (cell.column.Header === "revol_bal") {
+                  //   data = (
+                  //     <Text color={textColor} fontSize='sm' fontWeight='700'>
+                  //       {cell.value}
+                  //     </Text>
+                  //   );
+                  // } else if (cell.column.Header === "revol_util") {
+                  //   data = (
+                  //     <Text color={textColor} fontSize='sm' fontWeight='700'>
+                  //       {cell.value}
+                  //     </Text>
+                  //   );
+                  // } else if (cell.column.Header === "inq_last_6mths") {
+                  //   data = (
+                  //     <Text color={textColor} fontSize='sm' fontWeight='700'>
+                  //       {cell.value}
+                  //     </Text>
+                  //   );
+                  // } else if (cell.column.Header === "delinq_2yrs") {
+                  //   data = (
+                  //     <Text color={textColor} fontSize='sm' fontWeight='700'>
+                  //       {cell.value}
+                  //     </Text>
+                  //   );
+                  // } else if (cell.column.Header === "pub_rec") {
+                  //   data = (
+                  //     <Text color={textColor} fontSize='sm' fontWeight='700'>
+                  //       {cell.value}
+                  //     </Text>
+                  //   );
+                  // } 
+                  else if (cell.column.Header === "not_fully_paid") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
                         {cell.value}
