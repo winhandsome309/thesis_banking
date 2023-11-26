@@ -6,6 +6,12 @@
 
 HS Banking is a web platform for admin in banking which is used for predicting loan application.
 
+Techstack:
+
+- Frontend: ReactJS
+- Backend: Python (Flask)
+- Database: MySQL
+
 ## Set up database:
 
 Application using MySQL and using XAMPP to host database.
