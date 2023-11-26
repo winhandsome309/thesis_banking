@@ -4,18 +4,21 @@
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
-HS Banking is a web platform for admin in banking which is used for predict loan application.
+HS Banking is a web platform for admin in banking which is used for predicting loan application.
 
 ## Set up database:
 
 Application using MySQL and using XAMPP to host database.
-Install XAMPP [here](https://download.com.vn/xampp-for-windows-14235)
+
+Install XAMPP [here](https://download.com.vn/xampp-for-windows-14235). Press select **Apache** and **MySQL**
+
 Create database **loan_data**.
+
 Add file **loan_data.csv** in folder **models** into database. (Press select line: _The first line of the file contains the table column names ..._)
 
 ## Installation:
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install all package python for project.
+Install all python package for project:
 
 ```
 pip install -r requirements.txt
