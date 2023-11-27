@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 // Custom components
 import Card from "components/card/Card";
-import { AndroidLogo, AppleLogo, WindowsLogo } from "components/icons/Icons";
 import Menu from "components/menu/MainMenu";
 import React, { useState, useEffect, useMemo } from "react";
 import {
@@ -23,6 +22,7 @@ import {
   useTable,
 } from "react-table";
 import axios from "axios";
+import DrawerTable from "./DrawerTable";
 
 export default function AppTable(props) {
 
@@ -36,7 +36,7 @@ export default function AppTable(props) {
       });
   }, [])
 
-
+  const [showDrawer, setShowDrawer] = useState(null);
   
   const { columnsData, tableData } = props;
 
@@ -65,6 +65,11 @@ export default function AppTable(props) {
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const iconColor = useColorModeValue("secondaryGray.500", "white");
   const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
+
+  const handleDrawer = (obj) => {
+    setShowDrawer(obj);
+  };
+
   return (
     <Card
       direction='column'
@@ -81,7 +86,7 @@ export default function AppTable(props) {
         </Text>
         <Menu />
       </Flex>
-      <Table {...getTableProps()} variant='simple' color='gray.500' mb='0px'>
+      <Table {...getTableProps()} variant='striped' color='gray.500' mb='0px'>
         <Thead>
           {headerGroups.map((headerGroup, index) => (
             <Tr {...headerGroup.getHeaderGroupProps()} key={index}>
@@ -136,13 +141,14 @@ export default function AppTable(props) {
                       </Text>
                     );
                   } 
-                  // else if (cell.column.Header === "installment") {
-                  //   data = (
-                  //     <Text color={textColor} fontSize='sm' fontWeight='700'>
-                  //       {cell.value}
-                  //     </Text>
-                  //   );
-                  // } else if (cell.column.Header === "log_annual_inc") {
+                  else if (cell.column.Header === "installment") {
+                    data = (
+                      <Text color={textColor} fontSize='sm' fontWeight='700'>
+                        {cell.value}
+                      </Text>
+                    );
+                  } 
+                  // else if (cell.column.Header === "log_annual_inc") {
                   //   data = (
                   //     <Text color={textColor} fontSize='sm' fontWeight='700'>
                   //       {cell.value}
@@ -216,7 +222,9 @@ export default function AppTable(props) {
                       key={index}
                       fontSize={{ sm: "14px" }}
                       minW={{ sm: "150px", md: "200px", lg: "auto" }}
-                      borderColor='transparent'>
+                      borderColor='transparent'
+                      onClick={() => handleDrawer(row.cells)}
+                      >
                       {data}
                     </Td>
                   );
@@ -226,6 +234,7 @@ export default function AppTable(props) {
           })}
         </Tbody>
       </Table>
+      {showDrawer && <DrawerTable showDrawer={showDrawer} setShowDrawer={setShowDrawer}/>}
     </Card>
   );
 }

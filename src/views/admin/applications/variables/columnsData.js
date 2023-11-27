@@ -15,10 +15,10 @@ export const columnsDataDevelopment = [
     Header: "int_rate",
     accessor: "int_rate",
   },
-  // {
-  //   Header: "installment",
-  //   accessor: "installment",
-  // },
+  {
+    Header: "installment",
+    accessor: "installment",
+  },
   // {
   //   Header: "log_annual_inc",
   //   accessor: "log_annual_inc",
@@ -55,10 +55,10 @@ export const columnsDataDevelopment = [
   //   Header: "pub_rec",
   //   accessor: "pub_rec",
   // },
-  {
-    Header: "not_fully_paid",
-    accessor: "not_fully_paid",
-  },
+  // {
+  //   Header: "not_fully_paid",
+  //   accessor: "not_fully_paid",
+  // },
   {
     Header: "predict",
     accessor: "predict",
