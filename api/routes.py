@@ -27,7 +27,6 @@ def waiting_app():
         return "<p>POST!</p>"
     else:
         cursor = mysql.connect.cursor(MySQLdb.cursors.DictCursor)
-
         cursor.execute("SELECT * from loan_data")
         data = cursor.fetchall()
         return jsonify(data)
