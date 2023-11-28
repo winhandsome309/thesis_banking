@@ -54,14 +54,14 @@ export default function DrawerTable({showDrawer, setShowDrawer}) {
             <DrawerHeader>Detail Information</DrawerHeader>
 
             <DrawerBody>
-                <Grid templateColumns="repeat(9, 1fr)" templateRows="repeat(4, 1fr)" gap={10} paddingBottom={"0px"}>
+                <Grid templateColumns="repeat(9, 1fr)" templateRows="repeat(3, 1fr)" gap={2} paddingBottom="20px">
                     {showDrawer.map((cell, index) => {
                             return (
                                 <>
                                 <GridItem colSpan={4}>
                                     <Flex>
                                         <Text color={"gray.400"}>
-                                            {cell.column.Header}
+                                            {cell.column.Header} :
                                         </Text>
                                         <Spacer/>
                                         <Text>
@@ -77,7 +77,7 @@ export default function DrawerTable({showDrawer, setShowDrawer}) {
                 </Grid>
                 <DrawerHeader>Prediction</DrawerHeader>
 
-                <FormControl id="model" paddingBottom="40px">
+                <FormControl id="model" paddingBottom="20px">
                     <FormLabel>Model</FormLabel>
                     <Select placeholder="Select model" value={selectedModel} onChange={e => {
                         setSelectedModel(e.target.value)
