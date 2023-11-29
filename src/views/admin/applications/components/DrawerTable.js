@@ -28,7 +28,7 @@ import { useForm, Controller } from "react-hook-form";
 export default function DrawerTable({showDrawer, setShowDrawer}) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const btnRef = useRef(null);
-    const [selectedModel, setSelectedModel] = useState('linear_regression');
+    const [selectedModel, setSelectedModel] = useState('Linear Regression');
     
     useEffect(() => {
         onOpen()
