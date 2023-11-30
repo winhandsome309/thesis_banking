@@ -30,7 +30,7 @@ export default function AppTable(props) {
   var id = 1;
 
   useEffect(async () => {
-    axios.get("http://localhost:5000/admin/waiting_app")
+    axios.get("https://hs-banking.onrender.com/admin/waiting_app")
       .then((response) => {
         setData(response.data);
       });
