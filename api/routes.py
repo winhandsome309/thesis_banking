@@ -29,6 +29,7 @@ def index():
 @app.route("/admin/waiting_app", methods=["GET", "POST"])
 def waiting_app():
     if request.method == "POST":
+        
         return "<p>POST!</p>"
     else:
         cursor = mysql.connect.cursor(MySQLdb.cursors.DictCursor)
