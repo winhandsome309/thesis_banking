@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import {
   Modal,
@@ -21,15 +21,17 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   SimpleGrid,
-
+  Tooltip,
 } from "@chakra-ui/react";
+
+import axios from "axios";
 
 export default function Banner(props) {
   const { ...rest } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = React.useRef();
   const finalRef = React.useRef();
-
+  const [post, setPost] = useState(null);
   const [form, setForm] = useState({
     "credit_policy": 0,
     "purpose": "",
@@ -45,6 +47,17 @@ export default function Banner(props) {
     "delinq_2yrs": 0,
     "pub_rec": 0
   });
+
+  const handleCreate = async () => {
+    console.log(form);
+    axios.post("http://127.0.0.1:5000/admin/waiting_app", {
+      title: "Create new Application",
+      body: form,
+    })
+      .then((response) => {
+        setPost(response.data);
+      });
+  }
 
   return (
     <>
@@ -68,19 +81,23 @@ export default function Banner(props) {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create your account</ModalHeader>
+          <ModalHeader>Create new App</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <SimpleGrid columns={2} spacing={5}>
               <FormControl mt={4}>
-                <FormLabel>Credit Policy</FormLabel>
+                <Tooltip label='1 nếu khách hàng đáp ứng các tiêu chí đánh giá rủi ro tín dụng; 0 nếu không'>
+                  <FormLabel>Credit Policy</FormLabel>
+                </Tooltip>
                 <Select placeholder='Select option' onChange={(event) => setForm({ ...form, credit_policy: parseInt(event.target.value) })}>
                   <option value='1'>Yes</option>
                   <option value='0'>No</option>
                 </Select>
               </FormControl>
               <FormControl mt={4}>
-                <FormLabel>Purpose</FormLabel>
+                <Tooltip label='Mục đích của khoản vay'>
+                  <FormLabel>Purpose</FormLabel>
+                </Tooltip>
                 <Select placeholder='Select option' onChange={(event) => setForm({ ...form, purpose: event.target.value })}>
                   <option value='major_purchase'>Major purchase</option>
                   <option value='debt_consolidation'>Debt consolidation</option>
@@ -93,7 +110,9 @@ export default function Banner(props) {
               </FormControl>
               {/* <SimpleGrid columns={2} spacing={5}> */}
               <FormControl mt={4} onChange={(event) => setForm({ ...form, int_rate: parseFloat(event.target.value) })}>
-                <FormLabel>Int Rate</FormLabel>
+                <Tooltip label='Lãi suất của khoản vay'>
+                  <FormLabel>Interest Rate</FormLabel>
+                </Tooltip>
                 <NumberInput>
                   <NumberInputField />
                   <NumberInputStepper>
@@ -103,7 +122,9 @@ export default function Banner(props) {
                 </NumberInput>
               </FormControl>
               <FormControl mt={4} onChange={(event) => setForm({ ...form, installment: parseFloat(event.target.value) })}>
-                <FormLabel>Installment</FormLabel>
+                <Tooltip label='Số tiền trả góp hàng tháng mà người vay phải trả nếu khoản vay được chấp thuận'>
+                  <FormLabel>Installment</FormLabel>
+                </Tooltip>
                 <NumberInput>
                   <NumberInputField />
                   <NumberInputStepper>
@@ -113,7 +134,9 @@ export default function Banner(props) {
                 </NumberInput>
               </FormControl>
               <FormControl mt={4} onChange={(event) => setForm({ ...form, log_annual_inc: parseFloat(event.target.value) })}>
-                <FormLabel>Log Annual Inc</FormLabel>
+                <Tooltip label='Logarit tự nhiên về thu nhập hàng năm tự báo cáo của người vay'>
+                  <FormLabel>Log Annual Income</FormLabel>
+                </Tooltip>
                 <NumberInput>
                   <NumberInputField />
                   <NumberInputStepper>
@@ -123,7 +146,9 @@ export default function Banner(props) {
                 </NumberInput>
               </FormControl>
               <FormControl mt={4} onChange={(event) => setForm({ ...form, dti: parseFloat(event.target.value) })}>
-                <FormLabel>DTI</FormLabel>
+                <Tooltip label='Tỷ lệ nợ trên thu nhập của người đi vay (số nợ chia cho thu nhập hàng năm)'>
+                  <FormLabel>Debt To Income (DTI)</FormLabel>
+                </Tooltip>
                 <NumberInput>
                   <NumberInputField />
                   <NumberInputStepper>
@@ -133,7 +158,9 @@ export default function Banner(props) {
                 </NumberInput>
               </FormControl>
               <FormControl mt={4} onChange={(event) => setForm({ ...form, fico: parseFloat(event.target.value) })}>
-                <FormLabel>FICO</FormLabel>
+                <Tooltip label='Điểm tín dụng FICO của người đi vay là một loại điểm tín dụng của người vay mà người cho vay sử dụng để đánh giá rủi ro tín dụng và xác định xem có nên chấp nhận việc cấp tín dụng hoặc gia hạn tín dụng hay không.'>
+                  <FormLabel>Fair Isaac Corporation (FICO)</FormLabel>
+                </Tooltip>
                 <NumberInput>
                   <NumberInputField />
                   <NumberInputStepper>
@@ -143,7 +170,21 @@ export default function Banner(props) {
                 </NumberInput>
               </FormControl>
               <FormControl mt={4} onChange={(event) => setForm({ ...form, days_with_cr_line: parseFloat(event.target.value) })}>
-                <FormLabel>Days With Cr Line</FormLabel>
+                <Tooltip label='Số ngày người vay đã có 1 hạn mức tín dụng (hạn mức tín dụng là số tiền tối đa mà các tổ chức tín dụng có thể cho khách hàng của mình vay trong một thời điểm nhất định).'>
+                  <FormLabel>Days With Credit Line</FormLabel>
+                </Tooltip>
+                <NumberInput>
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </FormControl>
+              <FormControl mt={4} onChange={(event) => setForm({ ...form, revol_bal: parseFloat(event.target.value) })}>
+                <Tooltip label='Số dư quay vòng của người vay (số tiền chưa thanh toán vào cuối kỳ thanh toán trước của thẻ tín dụng).'>
+                  <FormLabel>Revolving Balance</FormLabel>
+                </Tooltip>
                 <NumberInput>
                   <NumberInputField />
                   <NumberInputStepper>
@@ -153,7 +194,9 @@ export default function Banner(props) {
                 </NumberInput>
               </FormControl>
               <FormControl mt={4} onChange={(event) => setForm({ ...form, revol_util: parseFloat(event.target.value) })}>
-                <FormLabel>Revol Util</FormLabel>
+                <Tooltip label='Tỷ lệ sử dụng hạn mức tín dụng quay vòng của người vay (số tiền hạn mức tín dụng được sử dụng so với tổng tín dụng hiện có). Đó là một phép tính đại diện cho tổng số nợ mà người vay đang sử dụng so với tổng tín dụng quay vòng mà họ được các tổ chức phát hành tín dụng chấp nhận.'>
+                  <FormLabel>Revolving Utilization</FormLabel>
+                </Tooltip>
                 <NumberInput>
                   <NumberInputField />
                   <NumberInputStepper>
@@ -163,21 +206,27 @@ export default function Banner(props) {
                 </NumberInput>
               </FormControl>
               <FormControl mt={4} onChange={(event) => setForm({ ...form, inq_last_6mths: parseInt(event.target.value) })}>
-                <FormLabel>Inq Last 6 months</FormLabel>
+                <Tooltip label='Số lượng người vay được chủ nợ hỏi thăm trong 6 tháng qua.'>
+                  <FormLabel>Inquiries Last 6 months</FormLabel>
+                </Tooltip>
                 <Select placeholder='Select option'>
                   <option value='1'>Yes</option>
                   <option value='0'>No</option>
                 </Select>
               </FormControl>
               <FormControl mt={4} onChange={(event) => setForm({ ...form, delinq_2yrs: parseInt(event.target.value) })}>
-                <FormLabel>Delinq 2 years</FormLabel>
+                <Tooltip label='Số lần người vay đã quá hạn thanh toán hơn 30 ngày trong 2 năm qua.'>
+                  <FormLabel>Delinquent 2 years</FormLabel>
+                </Tooltip>
                 <Select placeholder='Select option'>
                   <option value='1'>Yes</option>
                   <option value='0'>No</option>
                 </Select>
               </FormControl>
               <FormControl mt={4} onChange={(event) => setForm({ ...form, pub_rec: parseInt(event.target.value) })}>
-                <FormLabel>Pub Rec</FormLabel>
+                <Tooltip label='Số lượng hồ sơ công khai xúc phạm của người vay.'>
+                  <FormLabel>Public Record</FormLabel>
+                </Tooltip>
                 <Select placeholder='Select option'>
                   <option value='1'>Yes</option>
                   <option value='0'>No</option>
@@ -189,7 +238,10 @@ export default function Banner(props) {
           </ModalBody>
           <ModalFooter>
             <Button onClick={onClose}>Cancel</Button>
-            <Button colorScheme="brand" mr={3} ml={3} onClick={() => { console.log(form); }}>
+            <Button colorScheme="brand" mr={3} ml={3} onClick={() => {
+              console.log(form);
+              handleCreate();
+            }}>
               Create
             </Button>
           </ModalFooter>

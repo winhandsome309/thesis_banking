@@ -1,7 +1,6 @@
 /* eslint-disable */
 import {
   Flex,
-  Progress,
   Table,
   Tbody,
   Td,
@@ -37,7 +36,7 @@ export default function AppTable(props) {
   }, [])
 
   const [showDrawer, setShowDrawer] = useState(null);
-  
+
   const { columnsData, tableData } = props;
 
   const columns = useMemo(() => columnsData, [columnsData]);
@@ -68,7 +67,10 @@ export default function AppTable(props) {
   const handleDrawer = (obj) => {
     setShowDrawer(obj);
   };
-
+  const bgHover = useColorModeValue(
+    { bg: "secondaryGray.400", cursor: "pointer" },
+    { bg: "whiteAlpha.50", cursor: "pointer" },
+  );
   return (
     <Card
       direction='column'
@@ -85,7 +87,7 @@ export default function AppTable(props) {
         </Text>
         <Menu />
       </Flex>
-      <Table {...getTableProps()} variant='striped' color='gray.500' mb='0px'>
+      <Table {...getTableProps()} variant='simple' color='gray.500' mb='0px'>
         <Thead>
           {headerGroups.map((headerGroup, index) => (
             <Tr {...headerGroup.getHeaderGroupProps()} key={index}>
@@ -111,10 +113,10 @@ export default function AppTable(props) {
           {page.map((row, index) => {
             prepareRow(row);
             return (
-              <Tr {...row.getRowProps()} key={index}>
+              <Tr {...row.getRowProps()} key={index} _hover={bgHover} backgroundColor={index % 2 === 0 && "#fcfafa"}>
                 {row.cells.map((cell, index) => {
                   let data = "";
-                  if(cell.column.Header == "id"){
+                  if (cell.column.Header == "id") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
                         {id}
@@ -139,14 +141,14 @@ export default function AppTable(props) {
                         {cell.value + "$"}
                       </Text>
                     );
-                  } 
+                  }
                   else if (cell.column.Header === "installment") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
                         {cell.value}
                       </Text>
                     );
-                  } 
+                  }
                   // else if (cell.column.Header === "log_annual_inc") {
                   //   data = (
                   //     <Text color={textColor} fontSize='sm' fontWeight='700'>
@@ -208,13 +210,13 @@ export default function AppTable(props) {
                         {cell.value}
                       </Text>
                     );
-                  } else if(cell.column.Header == "predict"){
-                      data = (
-                        <Text color={cell.value >= 60 ? '#3cf20f' : 'red'} fontSize='sm' fontWeight='700'>
-                          {cell.value + '%'}
-                        </Text>
-                      );
-                    }
+                  } else if (cell.column.Header == "predict") {
+                    data = (
+                      <Text color={cell.value >= 60 ? '#3cf20f' : 'red'} fontSize='sm' fontWeight='700'>
+                        {cell.value + '%'}
+                      </Text>
+                    );
+                  }
                   return (
                     <Td
                       {...cell.getCellProps()}
@@ -223,7 +225,7 @@ export default function AppTable(props) {
                       minW={{ sm: "150px", md: "200px", lg: "auto" }}
                       borderColor='transparent'
                       onClick={() => handleDrawer(row.cells)}
-                      >
+                    >
                       {data}
                     </Td>
                   );
@@ -233,7 +235,7 @@ export default function AppTable(props) {
           })}
         </Tbody>
       </Table>
-      {showDrawer && <DrawerTable showDrawer={showDrawer} setShowDrawer={setShowDrawer}/>}
+      {showDrawer && <DrawerTable showDrawer={showDrawer} setShowDrawer={setShowDrawer} />}
     </Card>
   );
 }
