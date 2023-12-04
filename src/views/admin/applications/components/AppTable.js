@@ -34,7 +34,7 @@ export default function AppTable(props) {
   };
 
   const fetchData = async () => {
-    axios.get("http://hs-banking.onrender.com/admin/waiting_app")
+    axios.get("https//hs-banking.onrender.com/admin/waiting_app")
       .then((response) => {
         setData(response.data);
       });

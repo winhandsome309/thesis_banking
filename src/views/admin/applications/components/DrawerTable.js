@@ -40,7 +40,7 @@ export default function DrawerTable({ handleReload, showDrawer, setShowDrawer })
     const toast = useToast();
 
     const fetchDataCurrentId = async () => {
-        axios.post("http://hs-banking.onrender.com/admin/delete/waiting-app", {}, { params: { id: parseInt(showDrawer[0].value) } })
+        axios.post("https://hs-banking.onrender.com/admin/delete/waiting-app", {}, { params: { id: parseInt(showDrawer[0].value) } })
             .then((response) => {
                 if (response.data === 'success') {
                     toast({

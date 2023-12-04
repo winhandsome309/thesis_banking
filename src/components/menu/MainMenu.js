@@ -51,14 +51,14 @@ export default function Banner({handleReload}) {
   const toast = useToast();
 
   const fetchDataCurrentId = async () => {
-    axios.get("http://hs-banking.onrender.com/admin/get-current-id")
+    axios.get("https://hs-banking.onrender.com/admin/get-current-id")
     .then((response) => {
       setForm({ ...form, id: parseInt(response.data + 1)});
     });
   }
 
   const handleCreate = async () => {
-    axios.post("http://hs-banking.onrender.com/admin/waiting_app", {
+    axios.post("https://hs-banking.onrender.com/admin/waiting_app", {
       title: "Create new Application",
       body: form,
     })
