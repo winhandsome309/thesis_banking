@@ -4,8 +4,6 @@ import { Icon } from "@chakra-ui/react";
 import {
   MdCheckCircle,
   MdPerson,
-  MdHome,
-  MdLock,
   MdHourglassTop,
 } from "react-icons/md";
 
@@ -39,22 +37,22 @@ const routes = [
         color='inherit'
       />
     ),
-    component: ProcessedApp,
+    element: <ProcessedApp/>,
     // secondary: true,
   },
   {
     name: "Processed App.",
     layout: "/admin",
-    icon: <Icon as={MdCheckCircle} width='20px' height='20px' color='inherit' />,
     path: "/processed-app",
-    component: ProcessedApp,
+    icon: <Icon as={MdCheckCircle} width='20px' height='20px' color='inherit' />,
+    element: <ProcessedApp/>,
   },
   {
     name: "Profile",
     layout: "/admin",
     path: "/profile",
     icon: <Icon as={MdPerson} width='20px' height='20px' color='inherit' />,
-    component: Profile,
+    element: <Profile/>,
   },
 
 ];

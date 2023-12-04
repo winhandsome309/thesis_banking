@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import {
   Modal,
@@ -13,7 +13,6 @@ import {
   Button,
   FormControl,
   FormLabel,
-  Input,
   Select,
   NumberInput,
   NumberInputField,
@@ -22,12 +21,13 @@ import {
   NumberDecrementStepper,
   SimpleGrid,
   Tooltip,
+  useToast,
 } from "@chakra-ui/react";
 
 import axios from "axios";
 
-export default function Banner(props) {
-  const { ...rest } = props;
+export default function Banner({handleReload}) {
+  const { ...rest } = {};
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = React.useRef();
   const finalRef = React.useRef();
@@ -47,15 +47,25 @@ export default function Banner(props) {
     "delinq_2yrs": 0,
     "pub_rec": 0
   });
+  const toast = useToast();
 
   const handleCreate = async () => {
-    console.log(form);
     axios.post("http://127.0.0.1:5000/admin/waiting_app", {
       title: "Create new Application",
       body: form,
     })
       .then((response) => {
-        setPost(response.data);
+        onClose();
+        if (response.data === 'success') {
+          toast({
+            title: 'Application created.',
+            description: "We've created your loan application for you.",
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+          })
+        }
+        handleReload();
       });
   }
 
@@ -239,7 +249,6 @@ export default function Banner(props) {
           <ModalFooter>
             <Button onClick={onClose}>Cancel</Button>
             <Button colorScheme="brand" mr={3} ml={3} onClick={() => {
-              console.log(form);
               handleCreate();
             }}>
               Create

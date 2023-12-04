@@ -80,7 +80,7 @@ def waiting_app():
         )
         db.commit()
         cursor.close()
-        return "<p>Success!</p>"
+        return "success"
     else:
         cursor = mysql.connect.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute("SELECT * from loan_data")

@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'assets/css/App.css';
-import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
-import AuthLayout from 'layouts/auth';
-import AdminLayoutabc from './layouts/admin';
-import RtlLayout from 'layouts/rtl';
+import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
+import Dashboard from './layouts/admin';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from './theme/theme';
 import { ThemeEditorProvider } from '@hypertheme-editor/chakra-ui';
@@ -15,12 +13,12 @@ ReactDOM.render(
 		<React.StrictMode>
 			<ThemeEditorProvider>
 				<HashRouter>
-					<Switch>
+					<Routes>
 						{/* <Route path={`/auth`} component={AuthLayout} /> */}
-						<Route path={`/admin`} component={AdminLayoutabc} />
-						{/* <Route path={`/rtl`} component={RtlLayout} /> */}
-						<Redirect from='/' to='/admin' />
-					</Switch>
+						<Route path={"/admin/*"} element={<Dashboard/>} />
+						{/* <Redirect from='/' to='/admin' />*/}
+						<Route path="/" element={<Navigate replace to="/admin" />} />
+					</Routes>
 				</HashRouter>
 			</ThemeEditorProvider>
 		</React.StrictMode>

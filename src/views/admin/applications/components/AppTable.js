@@ -9,6 +9,11 @@ import {
   Thead,
   Tr,
   useColorModeValue,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  useToast,
 } from "@chakra-ui/react";
 // Custom components
 import Card from "components/card/Card";
@@ -26,14 +31,25 @@ import DrawerTable from "./DrawerTable";
 export default function AppTable(props) {
 
   const [data, setData] = useState([]);
+
+  const [reload, setReload] = useState(0);
+
+  const handleReload = () => {
+    setReload(reload + 1);
+  };
+
   var id = 1;
 
-  useEffect(async () => {
+  const fetchData = async () => {
     axios.get("http://127.0.0.1:5000/admin/waiting_app")
       .then((response) => {
         setData(response.data);
       });
-  }, [])
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [reload])
 
   const [showDrawer, setShowDrawer] = useState(null);
 
@@ -85,7 +101,7 @@ export default function AppTable(props) {
           lineHeight='100%'>
           Applications
         </Text>
-        <Menu />
+        <Menu handleReload={handleReload} />
       </Flex>
       <Table {...getTableProps()} variant='simple' color='gray.500' mb='0px'>
         <Thead>

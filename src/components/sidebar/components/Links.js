@@ -128,7 +128,6 @@ export function SidebarLinks(props) {
       }
     });
   };
-  //  BRAND
   return createLinks(routes);
 }
 
