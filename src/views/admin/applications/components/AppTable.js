@@ -9,11 +9,6 @@ import {
   Thead,
   Tr,
   useColorModeValue,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-  useToast,
 } from "@chakra-ui/react";
 // Custom components
 import Card from "components/card/Card";
@@ -37,8 +32,6 @@ export default function AppTable(props) {
   const handleReload = () => {
     setReload(reload + 1);
   };
-
-  var id = 1;
 
   const fetchData = async () => {
     axios.get("http://127.0.0.1:5000/admin/waiting_app")
@@ -75,7 +68,7 @@ export default function AppTable(props) {
     prepareRow,
     initialState,
   } = tableInstance;
-  initialState.pageSize = 11;
+  initialState.pageSize = 500;
 
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
@@ -83,6 +76,7 @@ export default function AppTable(props) {
   const handleDrawer = (obj) => {
     setShowDrawer(obj);
   };
+  
   const bgHover = useColorModeValue(
     { bg: "secondaryGray.400", cursor: "pointer" },
     { bg: "whiteAlpha.50", cursor: "pointer" },
@@ -132,13 +126,12 @@ export default function AppTable(props) {
               <Tr {...row.getRowProps()} key={index} _hover={bgHover} backgroundColor={index % 2 === 0 && "#fcfafa"}>
                 {row.cells.map((cell, index) => {
                   let data = "";
-                  if (cell.column.Header == "id") {
+                  if (cell.column.Header === "id") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
-                        {id}
+                        {cell.value}
                       </Text>
                     );
-                    id++;
                   } else if (cell.column.Header === "credit_policy") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
@@ -226,7 +219,7 @@ export default function AppTable(props) {
                         {cell.value}
                       </Text>
                     );
-                  } else if (cell.column.Header == "predict") {
+                  } else if (cell.column.Header === "predict") {
                     data = (
                       <Text color={cell.value >= 60 ? '#3cf20f' : 'red'} fontSize='sm' fontWeight='700'>
                         {cell.value + '%'}
@@ -251,7 +244,7 @@ export default function AppTable(props) {
           })}
         </Tbody>
       </Table>
-      {showDrawer && <DrawerTable showDrawer={showDrawer} setShowDrawer={setShowDrawer} />}
+      {showDrawer && <DrawerTable handleReload={handleReload} showDrawer={showDrawer} setShowDrawer={setShowDrawer} />}
     </Card>
   );
 }

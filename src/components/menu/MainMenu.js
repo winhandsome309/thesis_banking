@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import {
   Modal,
@@ -31,8 +31,8 @@ export default function Banner({handleReload}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = React.useRef();
   const finalRef = React.useRef();
-  const [post, setPost] = useState(null);
   const [form, setForm] = useState({
+    "id": 0,
     "credit_policy": 0,
     "purpose": "",
     "int_rate": 0,
@@ -47,7 +47,15 @@ export default function Banner({handleReload}) {
     "delinq_2yrs": 0,
     "pub_rec": 0
   });
+
   const toast = useToast();
+
+  const fetchDataCurrentId = async () => {
+    axios.get("http://127.0.0.1:5000/admin/get-current-id")
+    .then((response) => {
+      setForm({ ...form, id: parseInt(response.data + 1)});
+    });
+  }
 
   const handleCreate = async () => {
     axios.post("http://127.0.0.1:5000/admin/waiting_app", {
@@ -77,7 +85,10 @@ export default function Banner({handleReload}) {
         variant="brand"
         lineHeight='100%'
         borderRadius='10px'
-        onClick={onOpen}
+        onClick={() => {
+          onOpen();
+          fetchDataCurrentId();
+        }}
         {...rest}>
         Create new App.
       </Button>

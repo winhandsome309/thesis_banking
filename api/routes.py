@@ -23,11 +23,6 @@ app.config["MYSQL_USER"] = mysql_user
 app.config["MYSQL_PASSWORD"] = mysql_password
 app.config["MYSQL_DB"] = mysql_db
 
-# app.config['MYSQL_HOST'] = 'bszj9ehek5tqoemiufpm-mysql.services.clever-cloud.com'
-# app.config['MYSQL_USER'] = 'uwjlixjntoxk91y2'
-# app.config['MYSQL_PASSWORD'] = 'iSgk194ukeYE68FIXB8T'
-# app.config['MYSQL_DB'] = 'bszj9ehek5tqoemiufpm'
-
 mysql = MySQL(app)
 db = MySQLdb.connect("localhost", "root", "", "loan_data")
 
@@ -43,6 +38,7 @@ def waiting_app():
     if request.method == "POST":
         data = ast.literal_eval(request.data.decode("UTF-8"))
 
+        id = data["body"]["id"]
         credit_policy = data["body"]["credit_policy"]
         purpose = data["body"]["purpose"]
         int_rate = data["body"]["int_rate"]
@@ -59,8 +55,9 @@ def waiting_app():
 
         cursor = db.cursor()
         cursor.execute(
-            """INSERT INTO loan_data VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            """INSERT INTO loan_data VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
             (
+                id,
                 credit_policy,
                 purpose,
                 int_rate,
@@ -86,6 +83,26 @@ def waiting_app():
         cursor.execute("SELECT * from loan_data")
         data = cursor.fetchall()
         return jsonify(data)
+
+
+@app.route("/admin/delete/waiting-app", methods=["POST"])
+def delete_waiting_app():
+    if request.method == "POST":
+        id = request.args.get("id")
+        cursor = db.cursor()
+        cursor.execute("DELETE FROM loan_data WHERE id = %s", id)
+        db.commit()
+        cursor.close()
+        return "success"
+
+
+@app.route("/admin/get-current-id", methods=["GET", "POST"])
+def get_current_id():
+    if request.method == "GET":
+        cursor = mysql.connect.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute("SELECT MAX(id) as id from loan_data")
+        data = cursor.fetchall()
+        return str(data[0]["id"])
 
 
 if __name__ == "__main__":
