@@ -24,7 +24,7 @@ app.config["MYSQL_PASSWORD"] = mysql_password
 app.config["MYSQL_DB"] = mysql_db
 
 mysql = MySQL(app)
-db = MySQLdb.connect("localhost", "root", "", "loan_data")
+db = MySQLdb.connect(mysql_host, mysql_user, mysql_password, mysql_db)
 
 
 @app.route("/")
