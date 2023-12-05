@@ -7,6 +7,9 @@ import { ChakraProvider } from '@chakra-ui/react';
 import theme from './theme/theme';
 import { ThemeEditorProvider } from '@hypertheme-editor/chakra-ui';
 
+// window.link = "http://127.0.0.1:5000/";
+window.link = "https://hs-banking.onrender.com";
+
 ReactDOM.render(
 	<ChakraProvider theme={theme}>
 		<React.StrictMode>
