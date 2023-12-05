@@ -143,8 +143,8 @@ export default function Dashboard(props) {
 								{/* {routes.map((prop, key) => {
 										return <Route path={prop.layout + prop.path} element={prop.element} key={key} />;
 									})} */}
-								<Route path={'/waiting-app'} element={<ProcessedApp />} key={0} />
-								<Route path={'/processed-app'} element={<ProcessedApp />} key={0} />
+								<Route path={'/waiting-app'} element={<ProcessedApp type={"waiting"} />} key={0} />
+								<Route path={'/processed-app'} element={<ProcessedApp type={"processed"}/>} key={0} />
 								<Route path={'/profile'} element={<Profile />} key={0} />
 								{/* <Redirect from='/' to='/admin/default' /> */}
 								<Route path={"/admin"} element={<Navigate replace to="/admin" />} />

@@ -23,7 +23,7 @@ import {
 import axios from "axios";
 import DrawerTable from "./DrawerTable";
 
-export default function AppTable(props) {
+export default function AppTable({ props, type }) {
 
   const [data, setData] = useState([]);
 
@@ -34,21 +34,24 @@ export default function AppTable(props) {
   };
 
   const fetchData = async () => {
-    axios.get(window.link + "/admin/waiting_app")
+    axios.get(window.link + (type === "waiting" ? "/admin/waiting_app" : "/admin/processed_app"))
       .then((response) => {
         setData(response.data);
       });
   }
+  useEffect(() => {
+    fetchData();
+  }, [type]);
 
   useEffect(() => {
     fetchData();
-  }, [reload])
+  }, [reload]);
 
   const [showDrawer, setShowDrawer] = useState(null);
 
-  const { columnsData, tableData } = props;
+  const { columnsData } = props;
 
-  const columns = useMemo(() => columnsData, [columnsData]);
+  const columns = useMemo(() => props, [props]);
 
   const tableInstance = useTable(
     {
@@ -76,7 +79,7 @@ export default function AppTable(props) {
   const handleDrawer = (obj) => {
     setShowDrawer(obj);
   };
-  
+
   const bgHover = useColorModeValue(
     { bg: "secondaryGray.400", cursor: "pointer" },
     { bg: "whiteAlpha.50", cursor: "pointer" },
@@ -213,16 +216,16 @@ export default function AppTable(props) {
                   //     </Text>
                   //   );
                   // } 
-                  else if (cell.column.Header === "not_fully_paid") {
-                    data = (
-                      <Text color={textColor} fontSize='sm' fontWeight='700'>
-                        {cell.value}
-                      </Text>
-                    );
-                  } else if (cell.column.Header === "predict") {
+                  else if (cell.column.Header === "predict") {
                     data = (
                       <Text color={cell.value >= 60 ? '#3cf20f' : 'red'} fontSize='sm' fontWeight='700'>
                         {cell.value + '%'}
+                      </Text>
+                    );
+                  } else if (type === "processed" && cell.column.Header === "status") {
+                    data = (
+                      <Text color={textColor} fontSize='sm' fontWeight='700'>
+                        {cell.value}
                       </Text>
                     );
                   }
@@ -244,7 +247,7 @@ export default function AppTable(props) {
           })}
         </Tbody>
       </Table>
-      {showDrawer && <DrawerTable handleReload={handleReload} showDrawer={showDrawer} setShowDrawer={setShowDrawer} />}
+      {showDrawer && <DrawerTable handleReload={handleReload} showDrawer={showDrawer} setShowDrawer={setShowDrawer} type={type} />}
     </Card>
   );
 }

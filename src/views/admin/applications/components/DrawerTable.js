@@ -30,7 +30,7 @@ import {
 
 import axios from "axios";
 
-export default function DrawerTable({ handleReload, showDrawer, setShowDrawer }) {
+export default function DrawerTable({ handleReload, showDrawer, setShowDrawer, type }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { isOpen: isOpenAlert, onOpen: onOpenAlert, onClose: onCloseAlert } = useDisclosure();
     const cancelRef = useRef()
@@ -115,14 +115,14 @@ export default function DrawerTable({ handleReload, showDrawer, setShowDrawer })
                     <DrawerHeader paddingBottom="10px">Result of {selectedModel}</DrawerHeader>
                 </DrawerBody>
 
-                <DrawerFooter>
+                {type === "waiting" && <DrawerFooter>
                     <Button variant="outline" mr={3} onClick={() => {
                         onOpenAlert();
                     }} colorScheme="red">
                         Reject
                     </Button>
                     <Button colorScheme="brand">Approve</Button>
-                </DrawerFooter>
+                </DrawerFooter>}
             </DrawerContent>
             <AlertDialog
                 isOpen={isOpenAlert}

@@ -1,4 +1,4 @@
-export const columnsDataDevelopment = [
+export const columnsDataWaitingLoan = [
   {
     Header: "id",
     accessor: "id",
@@ -55,69 +55,8 @@ export const columnsDataDevelopment = [
   //   Header: "pub_rec",
   //   accessor: "pub_rec",
   // },
-  // {
-  //   Header: "not_fully_paid",
-  //   accessor: "not_fully_paid",
-  // },
   {
     Header: "predict",
     accessor: "predict",
   }
-];
-
-export const columnsDataCheck = [
-  {
-    Header: "NAME",
-    accessor: "name",
-  },
-  {
-    Header: "PROGRESS",
-    accessor: "progress",
-  },
-  {
-    Header: "QUANTITY",
-    accessor: "quantity",
-  },
-  {
-    Header: "DATE",
-    accessor: "date",
-  },
-];
-
-export const columnsDataColumns = [
-  {
-    Header: "NAME",
-    accessor: "name",
-  },
-  {
-    Header: "PROGRESS",
-    accessor: "progress",
-  },
-  {
-    Header: "QUANTITY",
-    accessor: "quantity",
-  },
-  {
-    Header: "DATE",
-    accessor: "date",
-  },
-];
-
-export const columnsDataComplex = [
-  {
-    Header: "NAME",
-    accessor: "name",
-  },
-  {
-    Header: "STATUS",
-    accessor: "status",
-  },
-  {
-    Header: "DATE",
-    accessor: "date",
-  },
-  {
-    Header: "PROGRESS",
-    accessor: "progress",
-  },
 ];

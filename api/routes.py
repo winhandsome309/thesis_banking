@@ -8,15 +8,15 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
 
-# mysql_host = "localhost"
-# mysql_user = "root"
-# mysql_password = ""
-# mysql_db = "loan_data"
+mysql_host = "localhost"
+mysql_user = "root"
+mysql_password = ""
+mysql_db = "loan_data"
 
-mysql_host = "bszj9ehek5tqoemiufpm-mysql.services.clever-cloud.com"
-mysql_user = "uwjlixjntoxk91y2"
-mysql_password = "iSgk194ukeYE68FIXB8T"
-mysql_db = "bszj9ehek5tqoemiufpm"
+# mysql_host = "bszj9ehek5tqoemiufpm-mysql.services.clever-cloud.com"
+# mysql_user = "uwjlixjntoxk91y2"
+# mysql_password = "iSgk194ukeYE68FIXB8T"
+# mysql_db = "bszj9ehek5tqoemiufpm"
 
 app.config["MYSQL_HOST"] = mysql_host
 app.config["MYSQL_USER"] = mysql_user
@@ -55,7 +55,7 @@ def waiting_app():
 
         cursor = db.cursor()
         cursor.execute(
-            """INSERT INTO loan_data VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            """INSERT INTO waiting_loan VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
             (
                 id,
                 credit_policy,
@@ -71,7 +71,6 @@ def waiting_app():
                 inq_last_6mths,
                 delinq_2yrs,
                 pub_rec,
-                1,
                 100,
             ),
         )
@@ -80,7 +79,7 @@ def waiting_app():
         return "success"
     else:
         cursor = mysql.connect.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute("SELECT * from loan_data")
+        cursor.execute("SELECT * from waiting_loan")
         data = cursor.fetchall()
         return jsonify(data)
 
@@ -90,7 +89,7 @@ def delete_waiting_app():
     if request.method == "POST":
         id = request.args.get("id")
         cursor = db.cursor()
-        cursor.execute("DELETE FROM loan_data WHERE id = %s", id)
+        cursor.execute("DELETE FROM waiting_loan WHERE id = '%s'" % id)
         db.commit()
         cursor.close()
         return "success"
@@ -100,9 +99,20 @@ def delete_waiting_app():
 def get_current_id():
     if request.method == "GET":
         cursor = mysql.connect.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute("SELECT MAX(id) as id from loan_data")
+        cursor.execute("SELECT MAX(id) as id from waiting_loan")
         data = cursor.fetchall()
         return str(data[0]["id"])
+
+
+@app.route("/admin/processed_app", methods=["GET", "POST"])
+def processed_app():
+    if request.method == "POST":
+        pass
+    else:
+        cursor = mysql.connect.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute("SELECT * from processed_loan")
+        data = cursor.fetchall()
+        return jsonify(data)
 
 
 if __name__ == "__main__":
