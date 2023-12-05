@@ -26,7 +26,7 @@ import {
 
 import axios from "axios";
 
-export default function Banner({handleReload}) {
+export default function Menu({handleReload}) {
   const { ...rest } = {};
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = React.useRef();
@@ -58,7 +58,7 @@ export default function Banner({handleReload}) {
   }
 
   const handleCreate = async () => {
-    axios.post(window.link + "/admin/waiting_app", {
+    axios.post(window.link + "/admin/waiting-app", {
       title: "Create new Application",
       body: form,
     })

@@ -36,13 +36,15 @@ export default function DrawerTable({ handleReload, showDrawer, setShowDrawer, t
     const cancelRef = useRef()
     const btnRef = useRef(null);
     const [selectedModel, setSelectedModel] = useState('Linear Regression');
+    const [alertSwitch, setAlertSwitch] = useState(0);
+    const [confirmDelete, setConfirmDelete] = useState(1);
 
     const toast = useToast();
 
-    const fetchDataCurrentId = async () => {
+    const deleteLoan = async () => {
         axios.post(window.link + "/admin/delete/waiting-app", {}, { params: { id: parseInt(showDrawer[0].value) } })
             .then((response) => {
-                if (response.data === 'success') {
+                if (confirmDelete === 1 && response.data === 'success') {
                     toast({
                         title: 'Application deleted.',
                         description: "We've deleted your loan application for you.",
@@ -53,11 +55,29 @@ export default function DrawerTable({ handleReload, showDrawer, setShowDrawer, t
                     handleReload();
                 }
             });
+    };
+
+    const approveLoan = async () => {
+        axios.post(window.link + "/admin/processed-app", {}, { params: { id: parseInt(showDrawer[0].value) } })
+            .then((response) => {
+                if (confirmDelete === 0 && response.data === 'success') {
+                    deleteLoan();
+                    toast({
+                        title: 'Application approved.',
+                        description: "We've approved your loan application for you.",
+                        status: 'success',
+                        duration: 3000,
+                        isClosable: true,
+                    });
+                    handleReload();
+                }
+            });
     }
+
 
     useEffect(() => {
         onOpen();
-    }, [])
+    }, []);
 
     const onSubmit = data => console.log(data);
     return (
@@ -117,11 +137,17 @@ export default function DrawerTable({ handleReload, showDrawer, setShowDrawer, t
 
                 {type === "waiting" && <DrawerFooter>
                     <Button variant="outline" mr={3} onClick={() => {
+                        setConfirmDelete(1);
+                        setAlertSwitch(0);
                         onOpenAlert();
                     }} colorScheme="red">
                         Reject
                     </Button>
-                    <Button colorScheme="brand">Approve</Button>
+                    <Button colorScheme="brand" onClick={() => {
+                        setConfirmDelete(0);
+                        setAlertSwitch(1);
+                        onOpenAlert();
+                    }}>Approve</Button>
                 </DrawerFooter>}
             </DrawerContent>
             <AlertDialog
@@ -131,8 +157,8 @@ export default function DrawerTable({ handleReload, showDrawer, setShowDrawer, t
             >
                 <AlertDialogOverlay>
                     <AlertDialogContent>
-                        <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                            Delete Application
+                        <AlertDialogHeader fontSize='xl' fontWeight='bold'>
+                            {alertSwitch === 0 ? "Delete Application" : "Approve Application"}
                         </AlertDialogHeader>
 
                         <AlertDialogBody>
@@ -143,13 +169,13 @@ export default function DrawerTable({ handleReload, showDrawer, setShowDrawer, t
                             <Button ref={cancelRef} onClick={onCloseAlert}>
                                 Cancel
                             </Button>
-                            <Button colorScheme='red' onClick={() => {
+                            <Button colorScheme={alertSwitch === 0 ? 'red' : 'blue'} onClick={() => {
                                 onCloseAlert();
                                 onClose();
                                 setShowDrawer(null);
-                                fetchDataCurrentId();
+                                approveLoan();
                             }} ml={3}>
-                                Delete
+                                {alertSwitch === 0 ? "Delete" : "Approve"}
                             </Button>
                         </AlertDialogFooter>
                     </AlertDialogContent>

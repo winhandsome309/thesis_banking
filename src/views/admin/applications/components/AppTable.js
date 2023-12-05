@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 // Custom components
 import Card from "components/card/Card";
-import Menu from "components/menu/MainMenu";
+import Menu from "../../../../components/menu/MainMenu";
 import React, { useState, useEffect, useMemo } from "react";
 import {
   useGlobalFilter,
@@ -34,7 +34,7 @@ export default function AppTable({ props, type }) {
   };
 
   const fetchData = async () => {
-    axios.get(window.link + (type === "waiting" ? "/admin/waiting_app" : "/admin/processed_app"))
+    axios.get(window.link + (type === "waiting" ? "/admin/waiting-app" : "/admin/processed-app"))
       .then((response) => {
         setData(response.data);
       });

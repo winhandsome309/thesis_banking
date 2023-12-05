@@ -33,7 +33,7 @@ def index():
     return "<p>This is index file</p>"
 
 
-@app.route("/admin/waiting_app", methods=["GET", "POST"])
+@app.route("/admin/waiting-app", methods=["GET", "POST"])
 def waiting_app():
     if request.method == "POST":
         data = ast.literal_eval(request.data.decode("UTF-8"))
@@ -101,13 +101,62 @@ def get_current_id():
         cursor = mysql.connect.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute("SELECT MAX(id) as id from waiting_loan")
         data = cursor.fetchall()
+        cursor.close()
         return str(data[0]["id"])
 
 
-@app.route("/admin/processed_app", methods=["GET", "POST"])
+@app.route("/admin/processed-app", methods=["GET", "POST"])
 def processed_app():
     if request.method == "POST":
-        pass
+        id = request.args.get("id")
+
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM waiting_loan WHERE id = '%s'" % id)
+        data = cursor.fetchone()
+        cursor.close()
+
+        id = data[0]
+        credit_policy = data[1]
+        purpose = data[2]
+        int_rate = data[3]
+        installment = data[4]
+        log_annual_inc = data[5]
+        dti = data[6]
+        fico = data[7]
+        days_with_cr_line = data[8]
+        revol_bal = data[9]
+        revol_util = data[10]
+        inq_last_6mths = data[11]
+        delinq_2yrs = data[12]
+        pub_rec = data[13]
+        status = data[14]
+
+        cursor = db.cursor()
+        cursor.execute(
+            """INSERT INTO processed_loan VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                id,
+                credit_policy,
+                purpose,
+                int_rate,
+                installment,
+                log_annual_inc,
+                dti,
+                fico,
+                days_with_cr_line,
+                revol_bal,
+                revol_util,
+                inq_last_6mths,
+                delinq_2yrs,
+                pub_rec,
+                100,
+                status,
+            ),
+        )
+        db.commit()
+        cursor.close()
+        return "success"
+
     else:
         cursor = mysql.connect.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute("SELECT * from processed_loan")
