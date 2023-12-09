@@ -37,7 +37,6 @@ def index():
 def waiting_app():
     if request.method == "POST":
         data = ast.literal_eval(request.data.decode("UTF-8"))
-
         id = data["body"]["id"]
         credit_policy = data["body"]["credit_policy"]
         purpose = data["body"]["purpose"]
@@ -109,7 +108,6 @@ def get_current_id():
 def processed_app():
     if request.method == "POST":
         id = request.args.get("id")
-
         cursor = db.cursor()
         cursor.execute("SELECT * FROM waiting_loan WHERE id = '%s'" % id)
         data = cursor.fetchone()

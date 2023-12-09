@@ -56,7 +56,11 @@ export const columnsDataWaitingLoan = [
   //   accessor: "pub_rec",
   // },
   {
-    Header: "predict",
-    accessor: "predict",
-  }
+    Header: "predict_lr",
+    accessor: "predict_lr",
+  },
+  {
+    Header: "predict_rf",
+    accessor: "predict_rf",
+  },
 ];
