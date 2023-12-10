@@ -1,3 +1,3 @@
-id,type,precision,recall,fmeasure,auc
-1,Logistic Regression,20,10,50,30
-4,Random Forest,40,80,70,20
+id,type,accuracy,precision,recall,auc
+1,Logistic Regression,84,43,2,51
+4,Random Forest,64,23,62,61
