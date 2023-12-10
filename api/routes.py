@@ -54,7 +54,7 @@ def waiting_app():
 
         cursor = db.cursor()
         cursor.execute(
-            """INSERT INTO waiting_loan VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            """INSERT INTO waiting_loan VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
             (
                 id,
                 credit_policy,
@@ -70,7 +70,8 @@ def waiting_app():
                 inq_last_6mths,
                 delinq_2yrs,
                 pub_rec,
-                100,
+                0,
+                1,
             ),
         )
         db.commit()
@@ -127,7 +128,9 @@ def processed_app():
         inq_last_6mths = data[11]
         delinq_2yrs = data[12]
         pub_rec = data[13]
-        status = data[14]
+        predict = max(int(data[14]), int(data[15]))
+
+        status = "Waiting"
 
         cursor = db.cursor()
         cursor.execute(
@@ -147,7 +150,7 @@ def processed_app():
                 inq_last_6mths,
                 delinq_2yrs,
                 pub_rec,
-                100,
+                predict,
                 status,
             ),
         )
@@ -158,6 +161,30 @@ def processed_app():
     else:
         cursor = mysql.connect.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute("SELECT * from processed_loan")
+        data = cursor.fetchall()
+        return jsonify(data)
+
+
+@app.route("/admin/image", methods=["GET", "POST"])
+def image():
+    if request.method == "POST":
+        pass
+    else:
+        typeModel = request.args.get("typeModel")
+        cursor = mysql.connect.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * from image where type="%s"' % typeModel)
+        data = cursor.fetchall()
+        return jsonify(data)
+
+
+@app.route("/admin/result-model", methods=["GET", "POST"])
+def result_model():
+    if request.method == "POST":
+        pass
+    else:
+        typeModel = request.args.get("typeModel")
+        cursor = mysql.connect.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * from result_model where type="%s"' % typeModel)
         data = cursor.fetchall()
         return jsonify(data)
 

@@ -11,6 +11,8 @@ import {
   FormControl,
   FormLabel,
   Select,
+  Center,
+  Spinner,
 } from "@chakra-ui/react";
 import Card from "components/card/Card";
 import Menu from "../../../../components/menu/MainMenu";
@@ -26,11 +28,23 @@ import axios from "axios";
 import DrawerTable from "./DrawerTable";
 
 export default function AppTable({ props, type }) {
+  const [dataTable, setDataTable] = useState([]);
   const [data, setData] = useState([]);
   const [reload, setReload] = useState(0);
   const [selectedPage, setSelectedPage] = useState("Applications");
   const [selectedModel, setSelectedModel] = useState("Logistic Regression");
-
+  const [loaded, setLoaded] = useState(false);
+  const value_execpt = [
+    "log_annual_inc",
+    "dti",
+    "fico",
+    "days_with_cr_line",
+    "revol_bal",
+    "revol_util",
+    "inq_last_6mths",
+    "delinq_2yrs",
+    "pub_rec",
+  ];
   const handleReload = () => {
     setReload(reload + 1);
   };
@@ -42,7 +56,10 @@ export default function AppTable({ props, type }) {
           (type === "waiting" ? "/admin/waiting-app" : "/admin/processed-app")
       )
       .then((response) => {
+        setLoaded(true);
+        // dataTable = response.data;
         setData(response.data);
+        setDataTable(response.data);
       });
   };
   useEffect(() => {
@@ -83,10 +100,15 @@ export default function AppTable({ props, type }) {
     setShowDrawer(obj);
   };
 
+  useEffect(() => {
+    setSelectedPage("Applications");
+  }, [type]);
+
   const bgHover = useColorModeValue(
     { bg: "secondaryGray.400", cursor: "pointer" },
     { bg: "whiteAlpha.50", cursor: "pointer" }
   );
+
   return (
     <Card
       direction="column"
@@ -95,43 +117,52 @@ export default function AppTable({ props, type }) {
       overflowX={{ sm: "scroll", lg: "hidden" }}
     >
       <Flex px="25px" justify="space-between" mb="20px" align="center">
-        <Flex justify="space-between">
-          {/* <Text
+        {type === "processed" ? (
+          <Text
             color={textColor}
-            fontSize="24px"
+            fontSize="20px"
             fontWeight="700"
             lineHeight="100%"
           >
             Applications
-          </Text> */}
-          <FormControl id="page">
-            <Select
-              width={"142px"}
-              value={selectedPage}
-              onChange={(e) => {
-                setSelectedPage(e.target.value);
-              }}
-            >
-              <option value="Applications">Applications</option>
-              <option value="Result Model">Result Model</option>
-            </Select>
-          </FormControl>
-          {selectedPage === "Result Model" && (
-            <FormControl id="model">
-              <Select
-                value={selectedModel}
-                onChange={(e) => {
-                  setSelectedModel(e.target.value);
-                }}
-              >
-                <option value="Logistic Regression">Logistic Regression</option>
-                <option value="Random Forest">Random Forest</option>
-              </Select>
-            </FormControl>
-          )}
-        </Flex>
-        <Menu handleReload={handleReload} />
+          </Text>
+        ) : (
+          <>
+            <Flex justify="space-between" gap="15px">
+              <FormControl id="page">
+                <Select
+                  width={"142px"}
+                  value={selectedPage}
+                  onChange={(e) => {
+                    setSelectedPage(e.target.value);
+                  }}
+                >
+                  <option value="Applications">Applications</option>
+                  <option value="Result Model">Result Model</option>
+                </Select>
+              </FormControl>
+              {selectedPage === "Result Model" && (
+                <FormControl id="model">
+                  <Select
+                    width={"190px"}
+                    value={selectedModel}
+                    onChange={(e) => {
+                      setSelectedModel(e.target.value);
+                    }}
+                  >
+                    <option value="Logistic Regression">
+                      Logistic Regression
+                    </option>
+                    <option value="Random Forest">Random Forest</option>
+                  </Select>
+                </FormControl>
+              )}
+            </Flex>
+            <Menu handleReload={handleReload} />
+          </>
+        )}
       </Flex>
+
       {selectedPage === "Applications" ? (
         <Table {...getTableProps()} variant="simple" color="gray.500" mb="0px">
           <Thead>
@@ -165,9 +196,9 @@ export default function AppTable({ props, type }) {
                   {...row.getRowProps()}
                   key={index}
                   _hover={bgHover}
-                  backgroundColor={index % 2 === 0 && "#fcfafa"}
+                  backgroundColor={index % 2 == 0 && "#fcfafa"}
                 >
-                  {row.cells.map((cell, index) => {
+                  {row.cells.map((cell, i) => {
                     let data = "";
                     if (cell.column.Header === "id") {
                       data = (
@@ -288,11 +319,13 @@ export default function AppTable({ props, type }) {
                     return (
                       <Td
                         {...cell.getCellProps()}
-                        key={index}
+                        key={i}
                         fontSize={{ sm: "14px" }}
                         minW={{ sm: "150px", md: "200px", lg: "auto" }}
                         borderColor="transparent"
-                        onClick={() => handleDrawer(row.cells)}
+                        onClick={() => {
+                          handleDrawer(dataTable[index]);
+                        }}
                       >
                         {data}
                       </Td>
@@ -304,7 +337,18 @@ export default function AppTable({ props, type }) {
           </Tbody>
         </Table>
       ) : (
-        <ResultModel />
+        type === "waiting" && <ResultModel typeModel={selectedModel} />
+      )}
+      {!loaded && (
+        <Center pt={"20px"}>
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="xl"
+          />
+        </Center>
       )}
       {showDrawer && (
         <DrawerTable

@@ -25,8 +25,9 @@ import {
   AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay,
+  Center,
 } from "@chakra-ui/react";
-
+import { HSeparator } from "../../../../components/separator/Separator";
 import axios from "axios";
 
 export default function DrawerTable({
@@ -54,7 +55,7 @@ export default function DrawerTable({
       .post(
         window.link + "/admin/delete/waiting-app",
         {},
-        { params: { id: parseInt(showDrawer[0].value) } }
+        { params: { id: parseInt(showDrawer["id"]) } }
       )
       .then((response) => {
         if (showAlert && response.data === "success") {
@@ -75,7 +76,7 @@ export default function DrawerTable({
       .post(
         window.link + "/admin/processed-app",
         {},
-        { params: { id: parseInt(showDrawer[0].value) } }
+        { params: { id: parseInt(showDrawer["id"]) } }
       )
       .then((response) => {
         if (response.data === "success") {
@@ -96,7 +97,6 @@ export default function DrawerTable({
     onOpen();
   }, []);
 
-  const onSubmit = (data) => console.log(data);
   return (
     <Drawer
       isOpen={isOpen}
@@ -115,48 +115,69 @@ export default function DrawerTable({
 
         <DrawerBody>
           <Grid
+            pt={"20px"}
             templateColumns="repeat(9, 1fr)"
             templateRows="repeat(3, 1fr)"
-            gap={2}
-            paddingBottom="20px"
+            gap={3}
           >
-            {showDrawer.map((cell, index) => {
+            {Object.entries(showDrawer).map(([key, value], index) => {
               return (
-                <>
-                  <GridItem colSpan={4}>
-                    <Flex>
-                      <Text color={"gray.400"}>{cell.column.Header} :</Text>
-                      <Spacer />
-                      <Text>{cell.value}</Text>
-                    </Flex>
-                  </GridItem>
-                  {index % 2 === 0 && <GridItem colSpan={1} />}
-                </>
+                key !== "predict_lr" &&
+                key !== "predict_rf" && (
+                  <>
+                    <GridItem colSpan={4}>
+                      <Flex>
+                        <Text color={"gray.400"}>{key} :</Text>
+                        <Spacer />
+                        <Text>{value}</Text>
+                      </Flex>
+                    </GridItem>
+                    {index % 2 === 0 && <GridItem colSpan={1} />}
+                  </>
+                )
               );
             })}
           </Grid>
-          {/* <DrawerHeader>Prediction</DrawerHeader>
-
-          <FormControl id="model" paddingBottom="20px">
-            <FormLabel>Model</FormLabel>
-            <Select
-              placeholder="Select model"
-              value={selectedModel}
-              onChange={(e) => {
-                setSelectedModel(e.target.value);
-              }}
-            >
-              <option value="Linear Regression">Linear Regression</option>
-              <option value="Logistic Regression">Logistic Regression</option>
-              <option value="Random Forest">Random Forest</option>
-            </Select>
-          </FormControl>
-
-          <DrawerHeader paddingBottom="10px">
-            Result of {selectedModel}
-          </DrawerHeader> */}
+          {type === "waiting" && (
+            <>
+              <Flex pl={"100px"} pr={"100px"} pt={"50px"} pb={"10px"}>
+                <HSeparator mb="20px" />
+              </Flex>
+              <Center pb={"30px"} fontSize={"20px"} color={"blue.500"}>
+                Result Of Models
+              </Center>
+              <Grid
+                templateColumns="repeat(9, 1fr)"
+                templateRows="repeat(3, 1fr)"
+                gap={3}
+              >
+                {Object.entries(showDrawer).map(([key, value], index) => {
+                  return (
+                    (key === "predict_lr" || key === "predict_rf") && (
+                      <>
+                        <GridItem colSpan={4}>
+                          <Flex>
+                            <Text color={"gray"}>
+                              {key === "predict_lr"
+                                ? "Logistic Regression"
+                                : "Random Forest"}{" "}
+                              :
+                            </Text>
+                            <Spacer />
+                            <Text color={value === 1 ? "#3cf20f" : "red"}>
+                              {value}
+                            </Text>
+                          </Flex>
+                        </GridItem>
+                        {index % 2 === 0 && <GridItem colSpan={1} />}
+                      </>
+                    )
+                  );
+                })}
+              </Grid>
+            </>
+          )}
         </DrawerBody>
-
         {type === "waiting" && (
           <DrawerFooter>
             <Button
