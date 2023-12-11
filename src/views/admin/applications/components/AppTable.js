@@ -13,9 +13,19 @@ import {
   Select,
   Center,
   Spinner,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
+  Button,
 } from "@chakra-ui/react";
-import Card from "components/card/Card";
-import Menu from "../../../../components/menu/MainMenu";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import Card from "../../../../components/card/Card";
+import MainMenu from "../../../../components/menu/MainMenu";
 import React, { useState, useEffect, useMemo } from "react";
 import ResultModel from "./ResultModel";
 import {
@@ -26,6 +36,7 @@ import {
 } from "react-table";
 import axios from "axios";
 import DrawerTable from "./DrawerTable";
+import { FaSort } from "react-icons/fa";
 
 export default function AppTable({ props, type }) {
   const [dataTable, setDataTable] = useState([]);
@@ -129,36 +140,60 @@ export default function AppTable({ props, type }) {
         ) : (
           <>
             <Flex justify="space-between" gap="15px">
-              <FormControl id="page">
-                <Select
-                  width={"142px"}
-                  value={selectedPage}
-                  onChange={(e) => {
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  rightIcon={<ChevronDownIcon />}
+                  width="150px"
+                  px={4}
+                  py={2}
+                  transition="all 0.2s"
+                  borderRadius="md"
+                  borderWidth="1px"
+                  _hover={{ bg: "gray.400" }}
+                >
+                  {selectedPage}
+                </MenuButton>
+                <MenuList
+                  minWidth="150px"
+                  onClick={(e) => {
                     setSelectedPage(e.target.value);
                   }}
                 >
-                  <option value="Applications">Applications</option>
-                  <option value="Result Model">Result Model</option>
-                </Select>
-              </FormControl>
+                  <MenuItem value="Applications">Applications</MenuItem>
+                  <MenuItem value="Result Model">Result Model</MenuItem>
+                </MenuList>
+              </Menu>
               {selectedPage === "Result Model" && (
-                <FormControl id="model">
-                  <Select
-                    width={"190px"}
-                    value={selectedModel}
-                    onChange={(e) => {
+                <Menu>
+                  <MenuButton
+                    as={Button}
+                    rightIcon={<ChevronDownIcon />}
+                    width="200px"
+                    px={4}
+                    py={2}
+                    transition="all 0.2s"
+                    borderRadius="md"
+                    borderWidth="1px"
+                    _hover={{ bg: "gray.400" }}
+                  >
+                    {selectedModel}
+                  </MenuButton>
+                  <MenuList
+                    minWidth="150px"
+                    onClick={(e) => {
                       setSelectedModel(e.target.value);
                     }}
                   >
-                    <option value="Logistic Regression">
+                    <MenuItem value="Logistic Regression">
                       Logistic Regression
-                    </option>
-                    <option value="Random Forest">Random Forest</option>
-                  </Select>
-                </FormControl>
+                    </MenuItem>
+                    <MenuItem value="Random Forest">Random Forest</MenuItem>
+                  </MenuList>
+                </Menu>
               )}
             </Flex>
-            <Menu handleReload={handleReload} />
+            <MainMenu handleReload={handleReload} />
           </>
         )}
       </Flex>
@@ -181,7 +216,7 @@ export default function AppTable({ props, type }) {
                       fontSize={{ sm: "10px", lg: "14px" }}
                       color="gray.400"
                     >
-                      {column.render("Header")}
+                      {column.render("Header")} <FaSort />
                     </Flex>
                   </Th>
                 ))}

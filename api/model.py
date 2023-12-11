@@ -53,7 +53,7 @@ from imblearn.over_sampling import SMOTE
 from joblib import Parallel, delayed
 import joblib
 
-pickled_model = joblib.load(open("./model/clf.joblib", "rb"))
+# pickled_model = joblib.load(open('model.joblib', 'rb'))
 
 # df = pd.DataFrame(
 #     {
@@ -74,10 +74,13 @@ pickled_model = joblib.load(open("./model/clf.joblib", "rb"))
 # )
 
 
-df = pd.read_csv("./data/data_test.csv", index_col=None)
+# Load data from the CSV file
+df = pd.read_csv("history_loan_data.csv", index_col=None)
 
+# Change the dots in the column names to underscores
 df.columns = [col.replace(".", "_") for col in df.columns]
 
+# Split columns by data type
 num = [
     "credit_policy",
     "int_rate",
@@ -95,9 +98,11 @@ num = [
 non_num = ["purpose"]
 
 
+# Log transform function
 def log_transform(data, to_log):
     X = data.copy()
     for item in to_log:
+        # Add 1 to the data to prevent infinity values
         X[item] = np.log(1 + X[item])
     return X
 
@@ -129,7 +134,8 @@ scaler = StandardScaler()
 scaler.fit(df_e_l)
 tmp_train = scaler.transform(df_e_l)
 df_e_l_n = pd.DataFrame(data=tmp_train, index=df_e.index, columns=df_e.columns)
+df_e_l_n.head()
 
 
-result = pickled_model.predict(df)
-print(result)
+# result = pickled_model.predict(df)
+# print(result)
