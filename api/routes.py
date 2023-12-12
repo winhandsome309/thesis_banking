@@ -8,15 +8,15 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
 
-mysql_host = "localhost"
-mysql_user = "root"
-mysql_password = ""
-mysql_db = "loan_data"
+# mysql_host = "localhost"
+# mysql_user = "root"
+# mysql_password = ""
+# mysql_db = "loan_data"
 
-# mysql_host = "bszj9ehek5tqoemiufpm-mysql.services.clever-cloud.com"
-# mysql_user = "uwjlixjntoxk91y2"
-# mysql_password = "iSgk194ukeYE68FIXB8T"
-# mysql_db = "bszj9ehek5tqoemiufpm"
+mysql_host = "bszj9ehek5tqoemiufpm-mysql.services.clever-cloud.com"
+mysql_user = "uwjlixjntoxk91y2"
+mysql_password = "iSgk194ukeYE68FIXB8T"
+mysql_db = "bszj9ehek5tqoemiufpm"
 
 app.config["MYSQL_HOST"] = mysql_host
 app.config["MYSQL_USER"] = mysql_user
