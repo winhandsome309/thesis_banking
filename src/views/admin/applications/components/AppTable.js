@@ -102,7 +102,7 @@ export default function AppTable({ props, type }) {
     prepareRow,
     initialState,
   } = tableInstance;
-  initialState.pageSize = 500;
+  initialState.pageSize = 50;
 
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
