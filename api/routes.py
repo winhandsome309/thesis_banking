@@ -114,23 +114,23 @@ def processed_app():
         data = cursor.fetchone()
         cursor.close()
 
-        id = int(data[0])
-        credit_policy = int(data[1])
-        purpose = str(data[2])
-        int_rate = float(data[3])
-        installment = float(data[4])
-        log_annual_inc = float(data[5])
-        dti = float(data[6])
-        fico = int(data[7])
-        days_with_cr_line = float(data[8])
-        revol_bal = int(data[9])
-        revol_util = float(data[10])
-        inq_last_6mths = int(data[11])
-        delinq_2yrs = int(data[12])
-        pub_rec = int(data[13])
+        id = data[0]
+        credit_policy = data[1]
+        purpose = data[2]
+        int_rate = data[3]
+        installment = data[4]
+        log_annual_inc = data[5]
+        dti = data[6]
+        fico = data[7]
+        days_with_cr_line = data[8]
+        revol_bal = data[9]
+        revol_util = data[10]
+        inq_last_6mths = data[11]
+        delinq_2yrs = data[12]
+        pub_rec = data[13]
         predict = max(int(data[14]), int(data[15]))
 
-        status = "Waiting"
+        status = 2
 
         cursor = db.cursor()
         cursor.execute(
